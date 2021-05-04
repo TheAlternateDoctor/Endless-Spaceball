@@ -1,10 +1,11 @@
 extends AnimatedSprite
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 var lockAction = false
+signal swing
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -13,9 +14,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	print(lockAction)
 	if Input.is_key_pressed(KEY_SPACE):
 		if lockAction == false:
+			emit_signal("swing")
 			animation = "Swing"
 			play()
 			lockAction = true
