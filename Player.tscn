@@ -1,0 +1,28 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://resources/textures/Player_1_Swing_1.png" type="Texture" id=1]
+[ext_resource path="res://resources/textures/Player_1_Swing_End.png" type="Texture" id=2]
+[ext_resource path="res://resources/textures/Player_1_Idle.png" type="Texture" id=3]
+[ext_resource path="res://resources/textures/Player_1_Swing_Start.png" type="Texture" id=4]
+[ext_resource path="res://resources/textures/Player_1_Swing_2.png" type="Texture" id=5]
+[ext_resource path="res://Player.gd" type="Script" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "Swing",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+} ]
+
+[node name="AnimatedSprite" type="AnimatedSprite"]
+position = Vector2( 523.958, 246.748 )
+frames = SubResource( 1 )
+animation = "Idle"
+script = ExtResource( 6 )
+[connection signal="animation_finished" from="." to="." method="_on_AnimatedSprite_animation_finished"]
