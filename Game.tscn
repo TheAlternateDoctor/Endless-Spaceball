@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://resources/textures/Player_1_Swing_1.png" type="Texture" id=1]
 [ext_resource path="res://resources/textures/Player_1_Swing_End.png" type="Texture" id=2]
@@ -9,51 +9,349 @@
 [ext_resource path="res://Song.gd" type="Script" id=7]
 [ext_resource path="res://resources/sounds/music_start.tres" type="AudioStream" id=8]
 [ext_resource path="res://resources/sounds/music_loop.ogg" type="AudioStream" id=9]
-[ext_resource path="res://Cues.gd" type="Script" id=10]
+[ext_resource path="res://Ball.gd" type="Script" id=10]
 [ext_resource path="res://resources/sounds/bat.tres" type="AudioStream" id=11]
 [ext_resource path="res://Game.gd" type="Script" id=12]
 [ext_resource path="res://resources/sounds/miss.tres" type="AudioStream" id=13]
 [ext_resource path="res://resources/sounds/shoot.tres" type="AudioStream" id=14]
 [ext_resource path="res://resources/sounds/hit.tres" type="AudioStream" id=15]
 [ext_resource path="res://resources/sounds/longShoot.tres" type="AudioStream" id=16]
+[ext_resource path="res://resources/textures/Pipe_Fire.png" type="Texture" id=17]
+[ext_resource path="res://resources/textures/Pipe_Idle.png" type="Texture" id=18]
+[ext_resource path="res://resources/textures/Pipe_Ready.png" type="Texture" id=19]
+[ext_resource path="res://Pipe.gd" type="Script" id=20]
+[ext_resource path="res://Swing.gd" type="Script" id=21]
+[ext_resource path="res://resources/textures/Box.png" type="Texture" id=22]
+[ext_resource path="res://resources/textures/Player_Shadow.png" type="Texture" id=23]
+[ext_resource path="res://Cues.gd" type="Script" id=24]
+[ext_resource path="res://resources/textures/Baseball.png" type="Texture" id=25]
+[ext_resource path="res://resources/textures/Face_1_Front.png" type="Texture" id=26]
+[ext_resource path="res://resources/textures/Face_1_Side.png" type="Texture" id=27]
+[ext_resource path="res://Ball2.gd" type="Script" id=28]
+[ext_resource path="res://resources/textures/Face_1_Side_2.png" type="Texture" id=29]
+[ext_resource path="res://Camera.gd" type="Script" id=30]
+[ext_resource path="res://resources/textures/Hole.png" type="Texture" id=31]
+[ext_resource path="res://resources/sounds/failure.tres" type="AudioStream" id=32]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 2 ) ],
 "loop": false,
 "name": "Swing",
 "speed": 30.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
 } ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 27 ), ExtResource( 29 ), ExtResource( 26 ) ],
+"loop": false,
+"name": "Swing",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 27 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 19 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": false,
+"name": "Fire",
+"speed": 30.0
+} ]
+
+[sub_resource type="Animation" id=5]
+resource_name = "longThrow"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 278, -0.2384, -44.42, 0.281719, 31.7149, 337, -0.218281, -25.5571, 0.221645, 52.2029, 435.274, -0.278355, -44.3429, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 353, -0.228212, 274.236, 0.228212, -274.236, -57, -0.326803, 3.18607, 0.326803, -3.18607, 411.691, -0.250159, -361.592, 0.250159, 361.592 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 90.0, -3.5, -45.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "shortThrow"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 278, -0.25, 0, 0.210942, 28.2528, 346.676, -0.161382, -18.0288, 0.214706, 31.7376, 432.126, -0.157618, -31.3168, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 353, -0.25, 0, 0.094369, -183.605, 99.0934, -0.419295, -1.10191, 0.440807, 1.15845, 398.436, -0.133645, -227.184, 0.0216469, 36.7976 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 90.0002, 52.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "longThrow"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 278, -0.2384, -44.42, 0.281719, 31.7149, 337, -0.218281, -25.5571, 0.221645, 52.2029, 435.274, -0.278355, -44.3429, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 353, -0.228212, 274.236, 0.228212, -274.236, -57, -0.326803, 3.18607, 0.326803, -3.18607, 411.691, -0.250159, -361.592, 0.250159, 361.592 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 90.0, -3.5, -45.0 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "shortThrow"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 278, -0.25, 0, 0.210942, 28.2528, 346.676, -0.161382, -18.0288, 0.214706, 31.7376, 432.126, -0.157618, -31.3168, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 353, -0.25, 0, 0.094369, -183.605, 99.0934, -0.419295, -1.10191, 0.440807, 1.15845, 398.436, -0.133645, -227.184, 0.0216469, 36.7976 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 90.0002, 52.0, 0.0 ]
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 12 )
-
-[node name="Player" type="AnimatedSprite" parent="."]
-position = Vector2( 523.958, 246.748 )
-frames = SubResource( 1 )
-animation = "Idle"
-script = ExtResource( 6 )
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 script = ExtResource( 7 )
 loop = ExtResource( 9 )
 start = ExtResource( 8 )
+fail = ExtResource( 32 )
 
 [node name="Cues" type="AudioStreamPlayer" parent="."]
-script = ExtResource( 10 )
-bat = ExtResource( 11 )
+stream = ExtResource( 14 )
+script = ExtResource( 24 )
 miss = ExtResource( 13 )
-hit = ExtResource( 15 )
 short = ExtResource( 14 )
 long = ExtResource( 16 )
-[connection signal="animation_finished" from="Player" to="Player" method="_on_AnimatedSprite_animation_finished"]
-[connection signal="swing" from="Player" to="Cues" method="_on_Player_swing"]
+
+[node name="Box" type="Sprite" parent="."]
+position = Vector2( 398.438, 158.768 )
+scale = Vector2( 0.315172, 0.315172 )
+texture = ExtResource( 22 )
+
+[node name="Shadow" type="Sprite" parent="Box"]
+position = Vector2( 441.892, 792.397 )
+scale = Vector2( 2.75805, 2.75805 )
+texture = ExtResource( 23 )
+
+[node name="Player" type="AnimatedSprite" parent="Box"]
+position = Vector2( 390.577, 364.652 )
+scale = Vector2( 2.72897, 2.72897 )
+frames = SubResource( 1 )
+animation = "Idle"
+script = ExtResource( 6 )
+
+[node name="Mask" type="AnimatedSprite" parent="Box/Player"]
+visible = false
+position = Vector2( -9.89585, -136.41 )
+scale = Vector2( 0.963034, 0.963034 )
+frames = SubResource( 2 )
+animation = "Swing"
+
+[node name="Swing" type="AudioStreamPlayer" parent="Box/Player"]
+stream = ExtResource( 11 )
+script = ExtResource( 21 )
+hit = ExtResource( 15 )
+bat = ExtResource( 11 )
+
+[node name="Pipe" type="AnimatedSprite" parent="Box"]
+position = Vector2( -383.032, 738.11 )
+scale = Vector2( 2.43379, 2.43379 )
+frames = SubResource( 3 )
+animation = "Idle"
+script = ExtResource( 20 )
+
+[node name="Hole" type="Sprite" parent="Box"]
+position = Vector2( 106.586, 822.51 )
+scale = Vector2( 1.12271, 1.12271 )
+texture = ExtResource( 31 )
+
+[node name="Ball" type="Sprite" parent="."]
+visible = false
+position = Vector2( 435.274, 411.691 )
+rotation = -0.785398
+scale = Vector2( 0.315172, 0.315172 )
+texture = ExtResource( 25 )
+script = ExtResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball"]
+anims/longThrow = SubResource( 5 )
+anims/shortThrow = SubResource( 4 )
+
+[node name="Ball2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 435.274, 411.691 )
+rotation = -0.785398
+scale = Vector2( 0.315172, 0.315172 )
+texture = ExtResource( 25 )
+script = ExtResource( 28 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball2"]
+anims/longThrow = SubResource( 6 )
+anims/shortThrow = SubResource( 7 )
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2( 403.122, 240.271 )
+offset = Vector2( -3, 55 )
+current = true
+script = ExtResource( 30 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+margin_left = 678.451
+margin_top = 19.0
+margin_right = 985.451
+margin_bottom = 80.0
+text = "SCORE: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Life" type="Label" parent="CanvasLayer"]
+margin_left = 28.0
+margin_top = 19.0
+margin_right = 70.0
+margin_bottom = 39.0
+text = "LIVES: 3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameOver" type="Label" parent="CanvasLayer"]
+visible = false
+margin_left = 364.867
+margin_top = 239.002
+margin_right = 440.867
+margin_bottom = 253.002
+text = "GAME OVER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="stop" from="." to="Cues" method="_on_Game_stop"]
+[connection signal="stop" from="." to="Song" method="_on_Game_stop"]
+[connection signal="swing" from="." to="Box/Player" method="_on_Game_swing"]
+[connection signal="swing" from="." to="Cues" method="_on_Game_swing"]
+[connection signal="finished" from="Song" to="Song" method="_on_Song_finished"]
+[connection signal="newLoop" from="Song" to="Cues" method="_on_Song_newLoop"]
 [connection signal="cueEnded" from="Cues" to="." method="_on_Cues_cueEnded"]
-[connection signal="missed" from="Cues" to="." method="_on_Cues_missed"]
-[connection signal="scored" from="Cues" to="." method="_on_Cues_scored"]
+[connection signal="fire" from="Cues" to="Box/Pipe" method="_on_Cues_fire"]
+[connection signal="fire" from="Cues" to="Ball2" method="_on_Cues_fire"]
+[connection signal="fire" from="Cues" to="Ball" method="_on_Cues_fire"]
+[connection signal="fire" from="Cues" to="Camera" method="_on_Cues_fire"]
+[connection signal="missed" from="Cues" to="." method="_on_Ball_missed"]
+[connection signal="scored" from="Cues" to="Ball2" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="Ball" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="." method="_on_Ball_scored"]
+[connection signal="scored" from="Cues" to="Camera" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="Box/Player/Swing" method="_on_Cues_scored"]
+[connection signal="whiff" from="Cues" to="Box/Player/Swing" method="_on_Cues_whiff"]
+[connection signal="animation_finished" from="Box/Player" to="Box/Player" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Box/Pipe" to="Box/Pipe" method="_on_Pipe_animation_finished"]
+[connection signal="animation_finished" from="Ball/AnimationPlayer" to="Ball" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="Ball2/AnimationPlayer" to="Ball2" method="_on_AnimationPlayer_animation_finished"]
