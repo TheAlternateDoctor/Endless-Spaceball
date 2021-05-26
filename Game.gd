@@ -9,9 +9,11 @@ var score = 0
 var lives = 3
 var lockAction = false
 var stop = false
+var started = false
 
 signal swing
 signal stop
+signal start
 
 #Emit Signals for Cues
 
@@ -20,12 +22,26 @@ func _ready():
 	pass
 
 func _process(_delta):
-	if Input.is_key_pressed(KEY_SPACE):
-		if lockAction == false:
-			emit_signal("swing")
+	if started:
+		if Input.is_key_pressed(KEY_SPACE):
+			if lockAction == false:
+				emit_signal("swing")
+				lockAction = true
+			elif lives == 0:
+				lives = 3
+				lockAction = false
+				$UI/Life.text = "LIVES: "+str(lives)
+				$UI/GameOver.visible = false
+				emit_signal("start")
+				stop = false
+		if not Input.is_key_pressed(KEY_SPACE) and lockAction == true and !stop:
+			lockAction = false
+	else:
+		if Input.is_key_pressed(KEY_SPACE):
+			started = true
+			emit_signal("start")
+			$UI/PressStart.visible = false
 			lockAction = true
-	if not Input.is_key_pressed(KEY_SPACE) and lockAction == true and !stop:
-		lockAction = false
 
 
 func _on_Cues_cueEnded():
@@ -41,7 +57,7 @@ func _on_Cues_cueEnded():
 
 func _on_Ball_scored():
 	score+=1
-	$CanvasLayer/Score.text = "SCORE: "+str(score)
+	$UI/Score.text = "SCORE: "+str(score)
 
 func _on_Ball_missed():
 	lives-=1
@@ -49,6 +65,6 @@ func _on_Ball_missed():
 		emit_signal("stop")
 		stop = true
 		lockAction = true
-		$CanvasLayer/GameOver.visible = true
-	$CanvasLayer/Life.text = "LIVES: "+str(lives)
+		$UI/GameOver.visible = true
+	$UI/Life.text = "LIVES: "+str(lives)
 

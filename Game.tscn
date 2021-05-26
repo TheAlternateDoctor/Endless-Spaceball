@@ -61,18 +61,18 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 19 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 30.0
-}, {
 "frames": [ ExtResource( 17 ), ExtResource( 18 ) ],
 "loop": false,
 "name": "Fire",
 "speed": 30.0
+}, {
+"frames": [ ExtResource( 19 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 30.0
 } ]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "longThrow"
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:position:x")
@@ -107,8 +107,7 @@ tracks/2/keys = {
 "values": [ 90.0, -3.5, -45.0 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "shortThrow"
+[sub_resource type="Animation" id=5]
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
@@ -280,8 +279,8 @@ texture = ExtResource( 25 )
 script = ExtResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Ball"]
-anims/longThrow = SubResource( 5 )
-anims/shortThrow = SubResource( 4 )
+anims/longThrow = SubResource( 4 )
+anims/shortThrow = SubResource( 5 )
 
 [node name="Ball2" type="Sprite" parent="."]
 visible = false
@@ -301,9 +300,9 @@ offset = Vector2( -3, 55 )
 current = true
 script = ExtResource( 30 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Score" type="Label" parent="CanvasLayer"]
+[node name="Score" type="Label" parent="UI"]
 margin_left = 678.451
 margin_top = 19.0
 margin_right = 985.451
@@ -313,7 +312,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Life" type="Label" parent="CanvasLayer"]
+[node name="Life" type="Label" parent="UI"]
 margin_left = 28.0
 margin_top = 19.0
 margin_right = 70.0
@@ -323,7 +322,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GameOver" type="Label" parent="CanvasLayer"]
+[node name="GameOver" type="Label" parent="UI"]
 visible = false
 margin_left = 364.867
 margin_top = 239.002
@@ -333,6 +332,18 @@ text = "GAME OVER"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PressStart" type="Label" parent="UI"]
+margin_left = 342.24
+margin_top = 346.482
+margin_right = 465.24
+margin_bottom = 360.482
+text = "Press Space to play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="start" from="." to="Cues" method="_on_Game_start"]
+[connection signal="start" from="." to="Song" method="_on_Game_start"]
 [connection signal="stop" from="." to="Cues" method="_on_Game_stop"]
 [connection signal="stop" from="." to="Song" method="_on_Game_stop"]
 [connection signal="swing" from="." to="Box/Player" method="_on_Game_swing"]
@@ -340,16 +351,15 @@ __meta__ = {
 [connection signal="finished" from="Song" to="Song" method="_on_Song_finished"]
 [connection signal="newLoop" from="Song" to="Cues" method="_on_Song_newLoop"]
 [connection signal="cueEnded" from="Cues" to="." method="_on_Cues_cueEnded"]
-[connection signal="fire" from="Cues" to="Box/Pipe" method="_on_Cues_fire"]
-[connection signal="fire" from="Cues" to="Ball2" method="_on_Cues_fire"]
 [connection signal="fire" from="Cues" to="Ball" method="_on_Cues_fire"]
+[connection signal="fire" from="Cues" to="Ball2" method="_on_Cues_fire"]
+[connection signal="fire" from="Cues" to="Box/Pipe" method="_on_Cues_fire"]
 [connection signal="fire" from="Cues" to="Camera" method="_on_Cues_fire"]
 [connection signal="missed" from="Cues" to="." method="_on_Ball_missed"]
-[connection signal="scored" from="Cues" to="Ball2" method="_on_Cues_scored"]
-[connection signal="scored" from="Cues" to="Ball" method="_on_Cues_scored"]
-[connection signal="scored" from="Cues" to="." method="_on_Ball_scored"]
-[connection signal="scored" from="Cues" to="Camera" method="_on_Cues_scored"]
 [connection signal="scored" from="Cues" to="Box/Player/Swing" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="Ball" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="Ball2" method="_on_Cues_scored"]
+[connection signal="scored" from="Cues" to="." method="_on_Ball_scored"]
 [connection signal="whiff" from="Cues" to="Box/Player/Swing" method="_on_Cues_whiff"]
 [connection signal="animation_finished" from="Box/Player" to="Box/Player" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Box/Pipe" to="Box/Pipe" method="_on_Pipe_animation_finished"]
